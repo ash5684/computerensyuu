@@ -1,0 +1,64 @@
+import math as m
+
+class Coordinate():
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+    def distance(self, other):
+        x_diff_sq= (self.x - other.x)**2
+        y_diff_sq= (self.y - other.y)**2
+        return (x_diff_sq + y_diff_sq)**0.5
+    def __str__(self):
+        return "座標 <" + str(self.x) + "," + str(self.y) +">"
+    def __repr__(self):
+        return "座標 <" + str(self.x) + "," + str(self.y) +">"
+    #--- 特殊メソッド -------
+    def __add__(self, other):
+        return Coordinate(self.x+other.x, self.y+other.y)
+    def __eq__(self, other):
+        return self.x==other.x and self.y==other.y
+        
+    
+    # - による　ベクトルの減算
+    def __sub__(self, other):
+        return Coordinate(self.x-other.x, self.y-other.y)
+        pass 
+        # ここにコード
+        
+    
+    # - による符号反転
+    def __neg__(self):
+        return Coordinate(self.x*-1, self.y*-1)
+        pass
+        #ここにコード
+        
+        
+        
+    # @による乗算が内積   x*x' + y*y'
+    def __matmul__(self,other):
+        return ((self.x*other.x)+(self.y*other.y))
+        pass
+        # ここにコード
+        
+        
+    # %による乗算が外積  x*y'-y*x' 
+    def __mod__(self,other):
+        return((self.x*other.y)-(self.y*other.x))
+        pass
+        # ここにコード
+        
+    #  originを中心として、angle_deg（度） 反時計周りに回転した座標(Coordinate オブジェクト)をreturnする
+    def rotate(self, origin, angle_deg):
+        dx=self.x-origin.x
+        dy=self.y-origin.y
+        dx_c=dx*m.cos(angle_deg*deg_to_radian)-dy*m.sin(angle_deg*deg_to_radian)
+        dy_c=dx*m.sin(angle_deg*deg_to_radian)+dy*m.cos(angle_deg*deg_to_radian)
+        x_c=dx_c+origin.x
+        y_c=dy_c+origin.y
+        return Coordinate(x_c, y_c)
+        pass
+        #ここにコード
+        
+a=Coordinate(3,4)
+b=Coordinate(9,3)
+print(a-b)  # 座標 <-6,1> が表示されるはず
